@@ -62,7 +62,7 @@ class Anagrams:
         if not isinstance(word, str):
             raise AttributeError(f"Input should be in string format.")
 
-    # returning anagrams from _similar_words dictionary
+    # Returning anagrams from _similar_words dictionary
     def get_anagrams(self, word: str) -> list[str] | str:
         """
         Method get_anagrams returns the value from a dictionary
@@ -95,7 +95,7 @@ class Anagrams:
             
             return toReturn
 
-    # sorting input into aplphabatical order
+    # Sorting input into alphabatical order
     def _get_sorted_word(self, word: str) -> str:
         """
         Method _get_sorted_word is used for getting a word in sorted alphabatical order

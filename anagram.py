@@ -40,6 +40,7 @@ class Anagrams:
         for thread in self.threads:
             thread.join()
 
+    # Creating dictionary for anagrams
     def _create_similar_words_dict(self, start_line, end_line, lock) -> None:
         """
         Method _create_similar_words_dict will read all the values from qualcomm-test-words.txt file
@@ -56,6 +57,12 @@ class Anagrams:
                 else:
                     self._similar_words[self._get_sorted_word(word)] = [word]
 
+    # Checking type of input to get_anagrams method.
+    def _check_input_format(self, word: any) -> None:
+        if not isinstance(word, str):
+            raise AttributeError(f"Input should be in string format.")
+
+    # returning anagrams from _similar_words dictionary
     def get_anagrams(self, word: str) -> list[str] | str:
         """
         Method get_anagrams returns the value from a dictionary
@@ -66,17 +73,29 @@ class Anagrams:
         Returns:
             list[str] | str: list of Anagrams or error message
         """
-        word = word.strip()
-        if len(word) == 0:
-            return "Invalid Input: Please provide a word to check"
 
-        if not word.isalpha():
-            return f"Invalid Input: Entered word '{word}' is not a correct word. Please enter a correct word!"
+        try:
+            self._check_input_format(word)
+        except AttributeError as e:
+            return f"Invalid Input: {e}"
+        else:
+            word = word.strip()
+            if len(word) == 0:
+                return "Invalid Input: Please provide a word to check"
 
-        word = self._get_sorted_word(word.lower())
+            if not word.isalpha():
+                return f"Invalid Input: Entered word '{word}' is not a correct word. Please enter a correct word."
 
-        return self._similar_words.get(word)
+            word = self._get_sorted_word(word.lower())
 
+            toReturn = self._similar_words.get(word)
+
+            if not toReturn:
+                return f"Could not find anagram word in qualcomm-test-words.txt file."
+            
+            return toReturn
+
+    # sorting input into aplphabatical order
     def _get_sorted_word(self, word: str) -> str:
         """
         Method _get_sorted_word is used for getting a word in sorted alphabatical order
@@ -94,3 +113,5 @@ class Anagrams:
 if __name__ == "__main__":
     a = Anagrams()
     print(a.get_anagrams("eat"))
+    print(a.get_anagrams("plates"))
+    
